@@ -23,8 +23,12 @@ public class MyStarGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(background,0,0);
-		batch.draw(img, 100, 500,150,150);
+	/*
+		Gdx.graphics.getWidth(),Gdx.graphics.getHeight()
+		растягивают по высоте и ширине эрана.
+	*/
+		batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		batch.draw(img, 100, 300,150,150);
 		batch.end();
 	}
 	
