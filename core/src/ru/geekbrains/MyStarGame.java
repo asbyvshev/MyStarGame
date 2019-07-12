@@ -1,42 +1,13 @@
 package ru.geekbrains;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Game;
 
-public class MyStarGame extends ApplicationAdapter {
+import ru.geekbrains.screen.MenuScreen;
 
-	SpriteBatch batch;
-	Texture img;
-	Texture background;
+public class MyStarGame extends Game {
 
 	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		background = new Texture("background.jpg");
-	}
-
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-	/*
-		Gdx.graphics.getWidth(),Gdx.graphics.getHeight()
-		растягивают по высоте и ширине эрана.
-	*/
-		batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		batch.draw(img, 100, 300,150,150);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-		background.dispose();
+	public void create() {
+		setScreen(new MenuScreen());
 	}
 }
