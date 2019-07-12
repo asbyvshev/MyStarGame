@@ -11,7 +11,7 @@ public class MenuScreen extends BaseScreen {
 
     private Texture img;
     private Vector2 touch;
-    private Vector2 v;
+    private Vector2 speed;
     private Vector2 pos;
 
     @Override
@@ -19,14 +19,14 @@ public class MenuScreen extends BaseScreen {
         super.show();
         img = new Texture("badlogic.jpg");
         touch = new Vector2();
-        v = new Vector2(0.4f, 0.7f);
+        speed = new Vector2(0.4f, 0.7f);
         pos = new Vector2();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        pos.add(v);
+        pos.add(speed);
         Gdx.gl.glClearColor(0.26f, 0.5f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
