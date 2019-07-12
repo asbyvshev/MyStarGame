@@ -13,6 +13,10 @@ public class MenuScreen extends BaseScreen {
     private Vector2 touch;
     private Vector2 speed;
     private Vector2 pos;
+    private Vector2 vRight;
+    private Vector2 vLeft;
+    private Vector2 vUp;
+    private Vector2 vDown;
 
     @Override
     public void show() {
@@ -21,14 +25,18 @@ public class MenuScreen extends BaseScreen {
         touch = new Vector2();
         speed = new Vector2();
         pos = new Vector2();
+        vRight = new Vector2(1,0);
+        vLeft = new Vector2(-1,0);
+        vUp = new Vector2(0,1);
+        vDown = new Vector2(0,-1);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         if ((int)Math.floor(pos.len()) != (int)Math.floor(touch.len())
-//                (int)Math.floor(pos.x) != (int)Math.floor(touch.x) &&
-//                (int)Math.floor(pos.x) != (int)Math.floor(touch.x)
+//                ((int)Math.floor(pos.x) != (int)Math.floor(touch.x)) &&
+//                ((int)Math.floor(pos.x) != (int)Math.floor(touch.x))
         ) {
             pos.add(speed.nor());
         }
@@ -64,13 +72,13 @@ public class MenuScreen extends BaseScreen {
         int right = 22;
         int left = 21;
         int up = 19;
-        int down = 22;
+        int down = 20;
 
-        if (keycode == right){ pos.add(1,0); }
-        if (keycode == left){ pos.add(-1,0); }
-        if (keycode == up){ pos.add(0,1); }
-        if (keycode == down){ pos.add(0,-1); }
+        if (keycode == right){ pos.add(vRight); }
+        if (keycode == left){ pos.add(vLeft); }
+        if (keycode == up){ pos.add(vUp); }
+        if (keycode == down){ pos.add(vDown); }
 
-        return super.keyDown(keycode);
+        return false;
     }
 }
