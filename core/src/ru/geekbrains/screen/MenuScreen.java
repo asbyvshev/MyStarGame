@@ -9,10 +9,14 @@ import ru.geekbrains.base.BaseScreen;
 
 public class MenuScreen extends BaseScreen {
 
+    private static final float V_LEN = 0.5f;
+
     private Texture img;
     private Vector2 touch;
     private Vector2 speed;
     private Vector2 pos;
+    private Vector2 buf;
+
     private Vector2 vRight;
     private Vector2 vLeft;
     private Vector2 vUp;
@@ -25,6 +29,7 @@ public class MenuScreen extends BaseScreen {
         touch = new Vector2();
         speed = new Vector2();
         pos = new Vector2();
+        buf = new Vector2();
         vRight = new Vector2(1,0);
         vLeft = new Vector2(-1,0);
         vUp = new Vector2(0,1);
@@ -34,21 +39,16 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        if ((int)Math.floor(pos.len()) != (int)Math.floor(touch.len())
-//                ((int)Math.floor(pos.x) != (int)Math.floor(touch.x)) &&
-//                ((int)Math.floor(pos.x) != (int)Math.floor(touch.x))
-        ) {
-            pos.add(speed.nor());
+        buf.set(touch);
+        if (buf.sub(pos).len() > V_LEN) {
+            pos.add(speed);
+        } else {
+            pos.set(touch);
         }
-//        else {
-//            pos.x = touch.x;
-//            pos.y = touch.y;
-//        }
         Gdx.gl.glClearColor(0.26f, 0.5f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(img, pos.x, pos.y);
-//        System.out.println(pos);
         batch.end();
     }
 
@@ -63,7 +63,7 @@ public class MenuScreen extends BaseScreen {
         touch.set(screenX, Gdx.graphics.getHeight() - screenY);
         System.out.println("touch.x = " + touch.x + " touch.y = " + touch.y);
         System.out.println("touch -----"+touch);
-        speed = touch.cpy().sub(pos);
+        speed.set(touch.cpy().sub(pos)).setLength(V_LEN);
         return false;
     }
 
