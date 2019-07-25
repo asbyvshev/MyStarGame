@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.base.BaseScreen;
 import ru.geekbrains.math.Rect;
+import ru.geekbrains.pool.BulletPool;
 import ru.geekbrains.sprite.Background;
 import ru.geekbrains.sprite.MainShip;
 import ru.geekbrains.sprite.Star;
@@ -20,6 +21,8 @@ public class GameScreen extends BaseScreen {
     private TextureAtlas atlas;
     private Texture bg;
     private Background background;
+
+    private BulletPool bulletPool;
 
     private Star[] starArray;
     private MainShip mainShip;
@@ -34,13 +37,15 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < STAR_COUNT; i++) {
             starArray[i] = new Star(atlas);
         }
-        mainShip = new MainShip(atlas);
+        bulletPool = new BulletPool();
+        mainShip = new MainShip(atlas, bulletPool);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        freeAllDestroyedActiveSprites();
         draw();
     }
 
@@ -58,26 +63,8 @@ public class GameScreen extends BaseScreen {
     public void dispose() {
         atlas.dispose();
         bg.dispose();
+        bulletPool.dispose();
         super.dispose();
-    }
-
-    private void update(float delta) {
-        for (Star star:starArray) {
-            star.update(delta);
-        }
-        mainShip.update(delta);
-    }
-
-    private void draw() {
-        Gdx.gl.glClearColor(0.26f, 0.5f, 0.8f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        background.draw(batch);
-        for (Star star:starArray) {
-            star.draw(batch);
-        }
-        mainShip.draw(batch);
-        batch.end();
     }
 
     @Override
@@ -94,13 +81,39 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        mainShip.touchDown(touch,pointer,button);
+        mainShip.touchDown(touch, pointer, button);
         return false;
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
-        mainShip.touchUp(touch,pointer,button);
+        mainShip.touchUp(touch, pointer, button);
         return false;
     }
+
+    private void update(float delta) {
+        for (Star star:starArray) {
+            star.update(delta);
+        }
+        bulletPool.updateActiveSprites(delta);
+        mainShip.update(delta);
+    }
+
+    private void freeAllDestroyedActiveSprites() {
+        bulletPool.freeAllDestroyedActiveSprites();
+    }
+
+    private void draw() {
+        Gdx.gl.glClearColor(0.26f, 0.5f, 0.8f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        background.draw(batch);
+        for (Star star:starArray) {
+            star.draw(batch);
+        }
+        mainShip.draw(batch);
+        bulletPool.drawActiveSprites(batch);
+        batch.end();
+    }
+
 }
