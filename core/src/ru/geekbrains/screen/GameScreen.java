@@ -1,5 +1,6 @@
 package ru.geekbrains.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
@@ -19,8 +20,10 @@ import ru.geekbrains.pool.EnemyPool;
 import ru.geekbrains.pool.ExplosionPool;
 import ru.geekbrains.sprite.Background;
 import ru.geekbrains.sprite.Bullet;
+import ru.geekbrains.sprite.ButtonNewGame;
 import ru.geekbrains.sprite.Enemy;
 import ru.geekbrains.sprite.MainShip;
+import ru.geekbrains.sprite.MessageGameOver;
 import ru.geekbrains.sprite.Star;
 import ru.geekbrains.utils.EnemyGenerator;
 
@@ -34,6 +37,8 @@ public class GameScreen extends BaseScreen {
     private Texture bg;
     private Background background;
 
+    private Game game;
+
     private BulletPool bulletPool;
     private EnemyPool enemyPool;
     private ExplosionPool explosionPool;
@@ -46,6 +51,14 @@ public class GameScreen extends BaseScreen {
 
     private State state;
     private State stateBuff;
+
+    private ButtonNewGame buttonNewGame;
+    private MessageGameOver messageGameOver;
+
+
+    public GameScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
@@ -68,6 +81,8 @@ public class GameScreen extends BaseScreen {
         music.play();
         state = State.PLAYING;
         stateBuff = State.PLAYING;
+        buttonNewGame = new ButtonNewGame(atlas, game);
+        messageGameOver = new MessageGameOver(atlas);
     }
 
     @Override
@@ -87,6 +102,10 @@ public class GameScreen extends BaseScreen {
             star.resize(worldBounds);
         }
         mainShip.resize(worldBounds);
+
+        buttonNewGame.resize(worldBounds);
+        messageGameOver.resize(worldBounds);
+
     }
 
     @Override
@@ -142,6 +161,7 @@ public class GameScreen extends BaseScreen {
         if (state == State.PLAYING) {
             mainShip.touchDown(touch, pointer, button);
         }
+        buttonNewGame.touchDown(touch, pointer, button);
         return false;
     }
 
@@ -150,6 +170,7 @@ public class GameScreen extends BaseScreen {
         if (state == State.PLAYING) {
             mainShip.touchUp(touch, pointer, button);
         }
+        buttonNewGame.touchDown(touch, pointer, button);
         return false;
     }
 
@@ -231,6 +252,10 @@ public class GameScreen extends BaseScreen {
             mainShip.draw(batch);
             bulletPool.drawActiveSprites(batch);
             enemyPool.drawActiveSprites(batch);
+        }
+        if (state == State.GAME_OVER){
+            messageGameOver.draw(batch);
+            buttonNewGame.draw(batch);
         }
         batch.end();
     }
