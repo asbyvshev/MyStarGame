@@ -160,8 +160,9 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             mainShip.touchDown(touch, pointer, button);
+        } else if (state == State.GAME_OVER){
+            buttonNewGame.touchDown(touch, pointer, button);
         }
-        buttonNewGame.touchDown(touch, pointer, button);
         return false;
     }
 
@@ -169,8 +170,9 @@ public class GameScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             mainShip.touchUp(touch, pointer, button);
+        } else if (state == State.GAME_OVER){
+            buttonNewGame.touchUp(touch, pointer, button);
         }
-        buttonNewGame.touchDown(touch, pointer, button);
         return false;
     }
 
@@ -247,17 +249,31 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         explosionPool.drawActiveSprites(batch);
-        if (state == State.PLAYING
-                || (state == State.PAUSE && stateBuff != State.GAME_OVER)) {
-            mainShip.draw(batch);
-            bulletPool.drawActiveSprites(batch);
-            enemyPool.drawActiveSprites(batch);
-        }
-        if (state == State.GAME_OVER){
-            messageGameOver.draw(batch);
-            buttonNewGame.draw(batch);
+
+        switch (state){
+            case PLAYING:
+                drawGameObject();
+                break;
+            case PAUSE:
+                if (stateBuff != State.GAME_OVER) {
+                    drawGameObject();
+                } else {
+                    messageGameOver.draw(batch);
+                    buttonNewGame.draw(batch);
+                }
+                break;
+            case GAME_OVER:
+                messageGameOver.draw(batch);
+                buttonNewGame.draw(batch);
+                break;
         }
         batch.end();
+    }
+
+    private void drawGameObject() {
+        mainShip.draw(batch);
+        bulletPool.drawActiveSprites(batch);
+        enemyPool.drawActiveSprites(batch);
     }
 
     private void pauseOn() {
