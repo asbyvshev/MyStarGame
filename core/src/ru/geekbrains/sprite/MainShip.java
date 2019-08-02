@@ -38,7 +38,7 @@ public class MainShip extends Ship {
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
-        setHeightProportion(0.15f);
+        setHeightProportion(0.13f);
         setBottom(worldBounds.getBottom() + 0.05f);
     }
 
