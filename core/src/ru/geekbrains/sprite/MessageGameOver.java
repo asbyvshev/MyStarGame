@@ -6,6 +6,7 @@ import ru.geekbrains.base.Sprite;
 import ru.geekbrains.math.Rect;
 
 public class MessageGameOver extends Sprite {
+
     public MessageGameOver(TextureAtlas atlas) {
         super(atlas.findRegion("message_game_over"));
     }

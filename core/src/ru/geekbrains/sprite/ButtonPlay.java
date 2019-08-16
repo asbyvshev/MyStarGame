@@ -18,13 +18,13 @@ public class ButtonPlay extends ScaledTouchUpButton {
 
     @Override
     public void resize(Rect worldBounds) {
-        setHeightProportion(0.2f);
+        setHeightProportion(0.25f);
         setBottom(worldBounds.getBottom() + 0.04f);
         setLeft(worldBounds.getLeft() + 0.04f);
     }
 
     @Override
     public void action() {
-        game.setScreen(new GameScreen(game));
+        game.setScreen(new GameScreen());
     }
 }
