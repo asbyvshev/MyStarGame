@@ -285,16 +285,20 @@ public class GameScreen extends BaseScreen {
                             worldBounds.pos.x, 0, Align.center
                     );
                 } else {
-                    messageGameOver.draw(batch);
-                    buttonNewGame.draw(batch);
+                    gameOver();
                 }
                 break;
             case GAME_OVER:
-                messageGameOver.draw(batch);
-                buttonNewGame.draw(batch);
+                gameOver();
                 break;
         }
         batch.end();
+    }
+
+    private void gameOver() {
+        music.setVolume(0.4f);
+        messageGameOver.draw(batch);
+        buttonNewGame.draw(batch);
     }
 
     private void drawGameObject() {
