@@ -303,9 +303,18 @@ public class GameScreen extends BaseScreen {
         sbFrags.setLength(0);
         sbHp.setLength(0);
         sbLevel.setLength(0);
-        font.draw(batch, sbFrags.append(FRAGS).append(frags), worldBounds.getLeft(), worldBounds.getTop());
-        font.draw(batch, sbHp.append(HP).append(mainShip.getHp()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
-        font.draw(batch, sbLevel.append(LEVEL).append(enemyGenerator.getLevel()), worldBounds.getRight(), worldBounds.getTop(), Align.right);
+        font.draw(
+                batch, sbFrags.append(FRAGS).append(frags),
+             worldBounds.getLeft() + 0.01f, worldBounds.getTop() - 0.01f
+        );
+        font.draw(
+                batch, sbHp.append(HP).append(mainShip.getHp()),
+                worldBounds.pos.x, worldBounds.getTop() - 0.01f, Align.center
+        );
+        font.draw(
+                batch, sbLevel.append(LEVEL).append(enemyGenerator.getLevel()),
+                worldBounds.getRight() - 0.01f, worldBounds.getTop() - 0.01f, Align.right
+        );
     }
 
     private void pauseOn() {
