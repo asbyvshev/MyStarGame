@@ -192,6 +192,8 @@ public class GameScreen extends BaseScreen {
         frags = 0;
         mainShip.startNewGame();
 
+        music.setVolume(1f);
+
         bulletPool.freeAllActiveObjects();
         enemyPool.freeAllActiveObjects();
         explosionPool.freeAllActiveObjects();
