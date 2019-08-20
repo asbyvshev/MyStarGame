@@ -35,6 +35,7 @@ public class GameScreen extends BaseScreen {
     private static final String FRAGS = "Frags:";
     private static final String HP = "HP:";
     private static final String LEVEL = "Level:";
+    private static final String STRING_PAUSE = "PAUSE";
 
     private static final int STAR_COUNT = 64;
 
@@ -279,6 +280,10 @@ public class GameScreen extends BaseScreen {
             case PAUSE:
                 if (stateBuff != State.GAME_OVER) {
                     drawGameObject();
+                    font.draw(
+                            batch, STRING_PAUSE,
+                            worldBounds.pos.x, 0, Align.center
+                    );
                 } else {
                     messageGameOver.draw(batch);
                     buttonNewGame.draw(batch);
